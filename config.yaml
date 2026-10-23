@@ -25,6 +25,8 @@ models:
     model: qwen2.5-coder:7b
     apiBase: http://localhost:11434
     contextLength: 16384
+    capabilities:
+      - tool_use
     roles:
       - chat
       - edit
