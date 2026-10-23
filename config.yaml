@@ -1,0 +1,96 @@
+name: Ollama Code Assistant
+version: 1.0.0
+schema: v1
+models:
+  - name: Llama 3.1 8B
+    provider: ollama
+    model: llama3.1:8b
+    roles:
+      - chat
+      - edit
+      - apply
+  - name: Qwen2.5-Coder 1.5B
+    provider: ollama
+    model: qwen2.5-coder:1.5b-base
+    roles:
+      - autocomplete
+  - name: Nomic Embed
+    provider: ollama
+    model: nomic-embed-text:latest
+    roles:
+      - embed
+  - name: nomic-embed-text
+    provider: ollama
+    model: nomic-embed-text
+    apiBase: http://localhost:11434
+    roles:
+      - embed
+  - name: qllama/bge-reranker-v2-m3
+    provider: ollama
+    model: qllama/bge-reranker-v2-m3
+    apiBase: http://localhost:11434
+    roles:
+      - rerank
+  - name: Qwen2.5 Coder 7B
+    provider: ollama
+    model: qwen2.5-coder:7b
+    apiBase: http://localhost:11434
+    contextLength: 16384
+    roles:
+      - edit
+      - apply
+context:
+  - provider: codebase
+  - provider: diff
+  - provider: terminal
+  - provider: docs
+  - provider: file
+rules:
+  - Always produce valid, production-ready code
+  - Follow existing project structure
+  - Never change unrelated code
+  - Ask for clarification if requirements are ambiguous
+  - Prefer clarity over cleverness
+  - Do not hallucinate APIs, packages, or framework features
+  - Output code only unless explanation is requested
+  - Use PHP 8.1+ with strict types
+  - Follow PSR-12 coding standards
+  - Keep Laravel controllers thin
+  - Use FormRequest for validation
+  - Place business logic in Services or Actions
+  - Use Eloquent scopes instead of raw queries
+  - Avoid N+1 queries
+  - Never hardcode secrets
+  - Validate all user input
+  - Use strict TypeScript
+  - Never use any type
+  - Prefer unknown over any
+  - Type all function parameters and returns
+  - Use Vue 3 Composition API
+  - Use script setup with TypeScript
+  - Keep components small and focused
+  - Avoid logic in templates
+  - Prefer composables for reusable logic
+  - Use Python 3.10+ syntax and features
+  - Follow PEP 8 coding style guidelines
+  - Use explicit type hinting for all function arguments and return types
+  - Always catch specific exceptions; never use bare 'except:'
+  - Prefer list/dict comprehensions over explicit loops where readable
+  - Keep Django views thin; offload business logic to Services, Selectors, or
+    UseCases
+  - Always optimize database queries using select_related and prefetch_related
+    to prevent N+1 queries
+  - Use Django Serializers (DRF) or Forms strictly for all input validation
+  - Ensure all database migrations are clean and backward-compatible
+  - Use Pydantic v2 for request/response models and environment configuration
+  - Heavily utilize Dependency Injection (Depends) for database sessions, auth,
+    and shared logic
+  - Use async/await correctly; use standard 'def' for blocking I/O if async
+    alternatives are unavailable
+  - Use explicit HTTP status codes (status_code=status.HTTP_...) and raise
+    HTTPException for errors
+  - Structure the application cleanly using modular APIRouter instances split by
+    domain
+  - Do not call API directly inside components
+  - Handle loading and error states explicitly
+  - Never store secrets in frontend code

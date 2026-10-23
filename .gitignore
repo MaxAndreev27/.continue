@@ -1,0 +1,24 @@
+# Continue-generated local data
+/dev_data/
+/index/
+/logs/
+/sessions/
+/.migrations/
+/.utils/
+
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Local databases and logs
+*.db
+*.sqlite
+*.sqlite-*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
