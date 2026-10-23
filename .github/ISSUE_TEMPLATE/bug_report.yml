@@ -1,0 +1,69 @@
+name: Bug report
+description: Report a reproducible problem with the Continue or Ollama configuration.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, check the README and make sure you have removed secrets, private code, and personal information.
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: Linux, macOS, or Windows (include version if known)
+    validations:
+      required: true
+  - type: input
+    id: continue-version
+    attributes:
+      label: Continue version
+      placeholder: Extension version shown in VS Code
+    validations:
+      required: true
+  - type: input
+    id: ollama-version
+    attributes:
+      label: Ollama version
+      placeholder: Output of ollama --version
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Model tag and Continue role
+      placeholder: qwen2.5-coder:7b — chat
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the smallest safe, reproducible example.
+      placeholder: |
+        1. Start Ollama...
+        2. Open Continue...
+        3. Ask...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Redact secrets, private source code, and personal paths.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the README and removed secrets and sensitive information.
+          required: true
+        - label: This is not a security vulnerability report.
+          required: true
