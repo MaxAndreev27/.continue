@@ -11,7 +11,7 @@ model to each Continue role:
 
 | Continue role | Model | Purpose |
 | --- | --- | --- |
-| Chat, edit, apply | `qwen2.5-coder:7b` | General coding conversations, code edits, and applying changes |
+| Chat, edit, apply | `qwen3-8b-32k` | General coding conversations, code edits, and applying changes |
 | Autocomplete | `qwen2.5-coder:1.5b-base` | Fast fill-in-the-middle suggestions while typing |
 | Embeddings | `nomic-embed-text:latest` | Converts code and text into vectors for semantic retrieval |
 | Reranking | `qllama/bge-reranker-v2-m3:latest` | Reorders retrieved code snippets by relevance |
@@ -33,7 +33,7 @@ file context providers and includes general-purpose coding rules.
   the model files.
 
 This configuration has been used with 16 GB of shared system memory. Actual
-speed and memory use vary by hardware and workload; the 7B model may respond
+speed and memory use vary by hardware and workload; the 8B model may respond
 more slowly with long contexts or while other applications are using memory.
 
 ## Install
@@ -51,18 +51,22 @@ ollama list
 
 The local API normally listens at `http://localhost:11434`.
 
-### 2. Download the configured models
+### 2. Download the base and supporting models
 
 Run these commands in a terminal:
 
 ```bash
-ollama pull qwen2.5-coder:7b
+ollama pull qwen3:8b
 ollama pull qwen2.5-coder:1.5b-base
 ollama pull nomic-embed-text:latest
 ollama pull qllama/bge-reranker-v2-m3:latest
 ```
 
-Check that all four are installed:
+The chat model configured in `config.yaml`, `qwen3-8b-32k`, is a custom model
+created from `qwen3:8b`. Pulling the base model does not create the custom
+model; make sure it has also been created before using this configuration.
+
+Check that the downloaded models are installed:
 
 ```bash
 ollama list
@@ -108,7 +112,7 @@ The configuration file location is:
 
 In VS Code, run **Continue: Reload Configuration** from the Command Palette
 (`Ctrl+Shift+P` on Linux/Windows, `Cmd+Shift+P` on macOS). Select the
-Qwen2.5-Coder 7B model in Continue if it is not selected automatically.
+Qwen3 8B model in Continue if it is not selected automatically.
 
 ## Verify it works
 
