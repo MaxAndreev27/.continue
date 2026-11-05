@@ -62,23 +62,36 @@ ollama pull nomic-embed-text:latest
 ollama pull qllama/bge-reranker-v2-m3:latest
 ```
 
-The chat model configured in `config.yaml`, `qwen3-8b-32k`, is a custom model
-created from `qwen3:8b`. Pulling the base model does not create the custom
-model; make sure it has also been created before using this configuration.
-
 Check that the downloaded models are installed:
 
 ```bash
 ollama list
 ```
 
-### 3. Install Continue
+### 3. Create the 32K chat model
+
+In the same directory, create a file named `Modelfile` with this content:
+
+```text
+FROM qwen3:8b
+PARAMETER num_ctx 32768
+```
+
+Build the custom model configured in `config.yaml`:
+
+```bash
+ollama create qwen3-8b-32k -f Modelfile
+```
+
+Verify that `qwen3-8b-32k` appears in `ollama list`.
+
+### 4. Install Continue
 
 Install the Continue extension from the
 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Continue.continue).
 Open Continue once so it creates its configuration directory.
 
-### 4. Install this configuration
+### 5. Install this configuration
 
 Clone this repository into a directory **other than** `~/.continue`; that
 directory is also used by Continue for local application data. Back up your
