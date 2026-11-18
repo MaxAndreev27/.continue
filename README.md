@@ -11,17 +11,19 @@ model to each Continue role:
 
 | Continue role | Model | Purpose |
 | --- | --- | --- |
-| Chat, edit, apply | `qwen3-8b-32k` | General coding conversations, code edits, and applying changes |
+| Chat, edit, apply | `qwen2.5-coder:7b-instruct-q4_K_M` | General coding conversations, code edits, and applying changes |
 | Autocomplete | `qwen2.5-coder:1.5b-base` | Fast fill-in-the-middle suggestions while typing |
 | Embeddings | `nomic-embed-text:latest` | Converts code and text into vectors for semantic retrieval |
 | Reranking | `qllama/bge-reranker-v2-m3:latest` | Reorders retrieved code snippets by relevance |
 
-The primary model advertises the `tool_use` capability for Continue Agent mode.
-All model endpoints use Ollama's default local address,
-`http://localhost:11434`.
+The chat model is configured with a context length of 16,384 tokens. The
+configuration does not declare the `tool_use` capability, so Agent mode
+availability depends on model and Continue support. All model endpoints use
+Ollama's default local address, `http://localhost:11434`.
 
 The configuration also enables Continue's codebase, diff, terminal, docs, and
-file context providers and includes general-purpose coding rules.
+file context providers. Its coding rules apply generally, with an additional
+input-validation rule for Python, TypeScript, and Go files.
 
 ## Requirements
 
@@ -32,9 +34,7 @@ file context providers and includes general-purpose coding rules.
 - An internet connection for the initial installation of Ollama, Continue, and
   the model files.
 
-This configuration has been used with 16 GB of shared system memory. Actual
-speed and memory use vary by hardware and workload; the 8B model may respond
-more slowly with long contexts or while other applications are using memory.
+Actual speed and memory use vary by hardware and workload.
 
 ## Install
 
@@ -51,12 +51,12 @@ ollama list
 
 The local API normally listens at `http://localhost:11434`.
 
-### 2. Download the base and supporting models
+### 2. Download the configured models
 
 Run these commands in a terminal:
 
 ```bash
-ollama pull qwen3:8b
+ollama pull qwen2.5-coder:7b-instruct-q4_K_M
 ollama pull qwen2.5-coder:1.5b-base
 ollama pull nomic-embed-text:latest
 ollama pull qllama/bge-reranker-v2-m3:latest
@@ -68,30 +68,13 @@ Check that the downloaded models are installed:
 ollama list
 ```
 
-### 3. Create the 32K chat model
-
-In the same directory, create a file named `Modelfile` with this content:
-
-```text
-FROM qwen3:8b
-PARAMETER num_ctx 32768
-```
-
-Build the custom model configured in `config.yaml`:
-
-```bash
-ollama create qwen3-8b-32k -f Modelfile
-```
-
-Verify that `qwen3-8b-32k` appears in `ollama list`.
-
-### 4. Install Continue
+### 3. Install Continue
 
 Install the Continue extension from the
 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Continue.continue).
 Open Continue once so it creates its configuration directory.
 
-### 5. Install this configuration
+### 4. Install this configuration
 
 Clone this repository into a directory **other than** `~/.continue`; that
 directory is also used by Continue for local application data. Back up your
@@ -125,13 +108,13 @@ The configuration file location is:
 
 In VS Code, run **Continue: Reload Configuration** from the Command Palette
 (`Ctrl+Shift+P` on Linux/Windows, `Cmd+Shift+P` on macOS). Select the
-Qwen3 8B model in Continue if it is not selected automatically.
+Qwen2.5-Coder 7B model in Continue if it is not selected automatically.
 
 ## Verify it works
 
 1. In Continue Chat, ask a simple question and confirm that you receive a
    normal text response.
-2. In Agent mode, try a small task that requires reading or changing a file.
+2. Try an edit or apply operation if offered by your Continue interface.
    Review proposed changes before accepting them.
 3. Start typing code in an editor to check autocomplete.
 4. Run `ollama ps` after a request to see which model Ollama loaded.

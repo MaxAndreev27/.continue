@@ -31,7 +31,7 @@ body:
     id: model
     attributes:
       label: Model tag and Continue role
-      placeholder: qwen2.5-coder:7b — chat
+      placeholder: qwen2.5-coder:7b-instruct-q4_K_M — chat
     validations:
       required: true
   - type: textarea
