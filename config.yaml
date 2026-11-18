@@ -20,24 +20,11 @@ models:
     apiBase: http://localhost:11434
     roles:
       - rerank
-  - name: Qwen3 8B
+  - name: Qwen2.5-Coder 7B
     provider: ollama
-    model: qwen3-8b-32k
+    model: qwen2.5-coder:7b-instruct-q4_K_M
     apiBase: http://localhost:11434
-    contextLength: 32768
-    capabilities:
-      - tool_use
-    roles:
-      - chat
-      - edit
-      - apply
-  - name: DeepSeek V4.1 Flash (Ollama Cloud)
-    provider: ollama
-    model: deepseek-v4.1-flash:cloud
-    apiBase: http://localhost:11434
-    contextLength: 1000000
-    capabilities:
-      - tool_use
+    contextLength: 16384
     roles:
       - chat
       - edit
@@ -49,14 +36,16 @@ context:
   - provider: docs
   - provider: file
 rules:
-  - Follow the existing codebase conventions and architecture.
-  - Make the smallest complete change that solves the requested problem.
-  - Preserve existing behavior and public interfaces unless a change is requested.
-  - Prefer clear, maintainable, and appropriately tested solutions over cleverness.
-  - Use existing dependencies and APIs; do not invent libraries, methods, or behavior.
-  - Validate untrusted input and handle errors explicitly at appropriate boundaries.
-  - Never expose credentials, secrets, or sensitive data in code or logs.
-  - Use the language and type-system features already established by the project.
-  - Add or update focused tests when changing behavior, and run relevant checks.
-  - Ask for clarification when requirements are ambiguous and materially affect the solution.
-  - Keep explanations concise and mention assumptions and validation results.
+  - "Follow the conventions of the file being edited: language, formatting, naming, imports, error handling."
+  - "Make the smallest complete change: no unrelated refactoring or reformatting; keep existing behavior and public interfaces unless asked."
+  - Use only dependencies and APIs that exist in the project; if something is missing from the context, say so instead of inventing it.
+  - Add or update focused tests when behavior changes. Never claim that a command, test, or check was run unless it was.
+  - "When asked to change code, return only the resulting code or diff: no preamble, no restating the request."
+  - If a requirement is ambiguous, state the assumption you made and proceed; ask only when the choice is irreversible.
+  - Never place credentials, secrets, or tokens in code, logs, or error messages.
+  - name: input-validation
+    rule: Validate untrusted input at boundaries and fail explicitly.
+    globs:
+      - "**/*.py"
+      - "**/*.ts"
+      - "**/*.go"
